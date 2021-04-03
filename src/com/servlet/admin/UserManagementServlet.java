@@ -26,9 +26,17 @@ public class UserManagementServlet extends HttpServlet
 		HttpServletRequest request,
 		HttpServletResponse response
 	) throws ServletException, IOException {
-		List<User> listUser = this.userDAO.paginate(10, 1);
+		String pageStr = request.getParameter("page"),
+			limitStr = request.getParameter("limit");
+		
+		int page = pageStr == null ? 1 : Integer.parseInt( pageStr );
+		int limit = limitStr == null ? 10 : Integer.parseInt( limitStr );
+
+		int offset = limit * (page - 1);
+		List<User> listUser = this.userDAO.paginate(offset, limit);
 		
 		request.setAttribute("listUser", listUser);
+		request.setAttribute("page", page);
 		request.getRequestDispatcher("/views/admin/users/index.jsp")
 			.forward(request, response);
 	}

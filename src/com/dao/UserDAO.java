@@ -27,7 +27,7 @@ public class UserDAO {
 		return entity;
 	}
 	
-	public List<User> paginate(int perPage, int offset)
+	public List<User> paginate(int offset, int perPage)
 	{
 		String hql = "FROM User";
 		Query query = this.hSession.createQuery(hql);
@@ -38,5 +38,25 @@ public class UserDAO {
 		List<User> result = query.getResultList();
 
 		return result;
+	}
+	
+	public User findById(int id)
+	{
+		User entity = this.hSession.get(User.class, id);
+		
+		return entity;
+	}
+	
+	public void update(User entity)
+	{
+		try {
+			this.hSession.clear();
+			this.hSession.beginTransaction();
+			this.hSession.update(entity);
+			this.hSession.getTransaction().commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.hSession.getTransaction().rollback();
+		}
 	}
 }

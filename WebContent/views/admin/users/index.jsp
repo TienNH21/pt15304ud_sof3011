@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>QL User</title>
+<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 </head>
 <body>
@@ -23,7 +24,7 @@
 				</select>
 			</div>
 		</div>
-		
+
 		<div class="mt-5 table-responsive">
 			<table class="table table-striped">
 				<thead>
@@ -37,21 +38,41 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>1</td>
-						<td>Nguyễn Văn A</td>
-						<td>anvph12345@gmail.com</td>
-						<td>Nam</td>
-						<td>User</td>
-						<td>
-							<button class="btn btn-primary">Update</button>
-						</td>
-						<td>
-							<button class="btn btn-danger">Delete</button>
-						</td>
-					</tr>
+					<c:forEach items="${ listUser }" var="user">
+						<tr>
+							<td>${ user.id }</td>
+							<td>${ user.name }</td>
+							<td>${ user.email }</td>
+							<td>${ user.gender }</td>
+							<td>${ user.role }</td>
+							<td>
+								<a
+									href="/PT15304UD/admin/users/update?id=${ user.id }"
+									class="btn btn-primary">Update</a>
+							</td>
+							<td>
+								<button class="btn btn-danger">Delete</button>
+							</td>
+						</tr>
+					</c:forEach>
 				</tbody>
 			</table>
+			
+			<ul class="pagination">
+				<li class="page-item">
+					<a
+						href="/PT15304UD/admin/users?page=${ page - 1 }"
+						class="page-link">Previous</a>
+				</li>
+				<li class="page-item">
+					<a class="page-link">1</a>
+				</li>
+				<li class="page-item">
+					<a
+						href="/PT15304UD/admin/users?page=${ page + 1 }"
+						class="page-link">Next</a>
+				</li>
+			</ul>
 		</div>
 	</div>
 </body>
