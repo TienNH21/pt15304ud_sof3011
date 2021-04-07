@@ -1,14 +1,24 @@
 package com.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+@NamedQueries(
+	@NamedQuery(
+		query="SELECT obj FROM User obj WHERE obj.status = 1",
+		name="User.getListActive"
+	)
+)
 @Entity
 @Table(name="users")
 public class User implements Serializable {
@@ -35,6 +45,28 @@ public class User implements Serializable {
 	@Column(name="role")
 	private Integer role;
 	
+	@OneToMany(mappedBy="user")
+	private List<Post> posts;
+
+	@Column(name="status")
+	private Integer status;
+	
+	public List<Post> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
+	}
+	
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
 	public Integer getId() {
 		return id;
 	}
